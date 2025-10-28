@@ -1,0 +1,123 @@
+"use client"
+
+import { useRef } from "react"
+import { motion } from "framer-motion"
+import dynamic from "next/dynamic"
+
+const ThreeDBackground = dynamic(() => import("./three-d-background"), {
+  ssr: false,
+})
+
+interface HeroProps {
+  onNotifyClick: () => void
+}
+
+export default function Hero({ onNotifyClick }: HeroProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const titleVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  }
+
+  const subtitleVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, delay: 0.2, ease: "easeOut" },
+    },
+  }
+
+  const buttonVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.6, delay: 0.4, ease: "easeOut" },
+    },
+    hover: { scale: 1.05, transition: { duration: 0.2 } },
+  }
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative w-full h-screen flex items-center justify-center overflow-hidden pt-20"
+    >
+      {/* 3D Background */}
+      <div className="absolute inset-0 z-0">
+        <ThreeDBackground />
+      </div>
+
+      {/* Overlay gradient - refined gradient for more luxury feel */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70 z-10" />
+
+      {/* Content */}
+      <motion.div
+        className="relative z-20 text-center px-4 max-w-4xl mx-auto"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: {
+            transition: { staggerChildren: 0.1 },
+          },
+        }}
+      >
+        {/* Logo/Company Name */}
+        <motion.div variants={titleVariants} className="mb-8">
+          <div className="inline-block glass px-6 py-2 rounded-full mb-6">
+            <p className="text-sm font-light tracking-widest text-primary">LUXURY REAL ESTATE</p>
+          </div>
+        </motion.div>
+
+        {/* Main Title - removed yellow circle background */}
+        <motion.h1
+          variants={titleVariants}
+          className="text-6xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 text-balance"
+        >
+          <span className="text-foreground">Launching</span>
+          <br />
+          <span className="text-primary font-light">Soon</span>
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          variants={subtitleVariants}
+          className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto text-balance"
+        >
+          Premium real estate experiences crafted for those who appreciate architectural excellence and timeless
+          elegance.
+        </motion.p>
+
+        {/* CTA Button */}
+        <motion.button
+          variants={buttonVariants}
+          whileHover="hover"
+          onClick={onNotifyClick}
+          className="glass px-8 py-4 rounded-full text-foreground font-medium hover:bg-white/20 transition-all duration-300 glow-gold"
+        >
+          Notify Me
+        </motion.button>
+      </motion.div>
+
+      <motion.div
+        className="absolute top-1/4 left-8 w-1 h-24 bg-gradient-to-b from-primary/50 to-transparent rounded-full"
+        animate={{
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
+      />
+      <motion.div
+        className="absolute bottom-1/4 right-8 w-1 h-32 bg-gradient-to-t from-primary/50 to-transparent rounded-full"
+        animate={{
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{ duration: 5, repeat: Number.POSITIVE_INFINITY }}
+      />
+    </section>
+  )
+}
