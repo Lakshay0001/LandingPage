@@ -1,7 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { useEffect, useState, useMemo } from "react"
 
 interface TimeLeft {
   days: number
@@ -18,12 +17,14 @@ export default function CountdownTimer() {
     seconds: 0,
   })
 
+  const launchDate = useMemo(() => {
+    const d = new Date()
+    d.setDate(d.getDate() + 60)
+    return d
+  }, [])
+
   useEffect(() => {
     const calculateTimeLeft = () => {
-      // Set launch date to 60 days from now
-      const launchDate = new Date()
-      launchDate.setDate(launchDate.getDate() + 60)
-
       const difference = launchDate.getTime() - new Date().getTime()
 
       if (difference > 0) {
@@ -33,47 +34,52 @@ export default function CountdownTimer() {
           minutes: Math.floor((difference / 1000 / 60) % 60),
           seconds: Math.floor((difference / 1000) % 60),
         })
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
       }
     }
 
     calculateTimeLeft()
     const timer = setInterval(calculateTimeLeft, 1000)
     return () => clearInterval(timer)
-  }, [])
+  }, [launchDate])
 
-  const TimeUnit = ({
-    value,
-    label,
-  }: {
-    value: number
-    label: string
-  }) => (
-    <motion.div
-      className="flex flex-col items-center"
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="glass px-6 py-4 rounded-lg mb-2 min-w-20">
-        <p className="text-3xl md:text-4xl font-light text-primary">{String(value).padStart(2, "0")}</p>
+  const TimeUnit = ({ value, label }: { value: number; label: string }) => (
+    <div className="flex flex-col items-center relative">
+      {/* 🔥 Glow behind number */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-20 h-20 rounded-full blur-2xl opacity-40 bg-gradient-to-r from-amber-500 to-yellow-600"></div>
       </div>
+
+      {/* 🕒 Number Box */}
+      <div
+        className="
+          bg-white/10 
+          backdrop-blur-md 
+          border border-white/20 
+          rounded-lg 
+          px-8 py-6 
+          mb-2 
+          min-w-[5rem] 
+          text-center
+          shadow-md
+          relative
+          z-10
+        "
+      >
+        <p className="text-4xl font-light text-amber-400">
+          {String(value).padStart(2, "0")}
+        </p>
+      </div>
+
       <p className="text-sm text-muted-foreground uppercase tracking-widest">{label}</p>
-    </motion.div>
+    </div>
   )
 
   return (
-    <section className="relative py-24 px-4 bg-gradient-to-b from-transparent via-black/20 to-transparent">
-      <div className="max-w-6xl mx-auto">
-        <motion.h2
-          className="text-4xl md:text-5xl font-light text-center mb-16 text-balance"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Time Until Launch
-        </motion.h2>
-
-        <div className="flex justify-center gap-4 md:gap-8 flex-wrap">
+    <section className="relative pt-5 pb-10 px-4 bg-gradient-to-b from-transparent via-black/20 to-transparent">
+      <div className="max-w-6xl mx-auto text-center">
+        <div className="flex justify-center gap-6 md:gap-10 flex-wrap">
           <TimeUnit value={timeLeft.days} label="Days" />
           <TimeUnit value={timeLeft.hours} label="Hours" />
           <TimeUnit value={timeLeft.minutes} label="Minutes" />

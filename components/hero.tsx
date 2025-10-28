@@ -1,8 +1,9 @@
 "use client"
 
 import { useRef } from "react"
-import { motion } from "framer-motion"
+import { motion, Variants } from "framer-motion"
 import dynamic from "next/dynamic"
+import CountdownTimer from "@/components/countdown-timer"
 
 const ThreeDBackground = dynamic(() => import("./three-d-background"), {
   ssr: false,
@@ -15,50 +16,54 @@ interface HeroProps {
 export default function Hero({ onNotifyClick }: HeroProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const titleVariants = {
+  // Framer Motion Variants with correct easing type
+  const titleVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }, // ✅ corrected easing
     },
   }
 
-  const subtitleVariants = {
+  const subtitleVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, delay: 0.2, ease: "easeOut" },
+      transition: { duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }, // ✅ corrected easing
     },
   }
 
-  const buttonVariants = {
+  const buttonVariants: Variants = {
     hidden: { opacity: 0, scale: 0.95 },
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.6, delay: 0.4, ease: "easeOut" },
+      transition: { duration: 0.6, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }, // ✅ corrected easing
     },
-    hover: { scale: 1.05, transition: { duration: 0.2 } },
+    hover: {
+      scale: 1.05,
+      transition: { duration: 0.2 },
+    },
   }
 
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-center overflow-hidden pt-20"
+      className="relative w-full py-20 flex items-center justify-center overflow-hidden"
     >
       {/* 3D Background */}
       <div className="absolute inset-0 z-0">
         <ThreeDBackground />
       </div>
 
-      {/* Overlay gradient - refined gradient for more luxury feel */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70 z-10" />
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-black/10 z-10" />
 
       {/* Content */}
       <motion.div
-        className="relative z-20 text-center px-4 max-w-4xl mx-auto"
+        className="relative pt-15 z-20 text-center px-4 max-w-4xl mx-auto"
         initial="hidden"
         animate="visible"
         variants={{
@@ -68,16 +73,18 @@ export default function Hero({ onNotifyClick }: HeroProps) {
         }}
       >
         {/* Logo/Company Name */}
-        <motion.div variants={titleVariants} className="mb-8">
-          <div className="inline-block glass px-6 py-2 rounded-full mb-6">
-            <p className="text-sm font-light tracking-widest text-primary">LUXURY REAL ESTATE</p>
+        {/* <motion.div variants={titleVariants} className="">
+          <div className="inline-block glass px-6 py-2 rounded-full mb-6  glow-gold">
+            <p className="text-lg font-light tracking-widest text-primary">
+              FAIR STONE
+            </p>
           </div>
-        </motion.div>
+        </motion.div> */}
 
-        {/* Main Title - removed yellow circle background */}
+        {/* Main Title */}
         <motion.h1
           variants={titleVariants}
-          className="text-6xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 text-balance"
+          className="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight mb-6 text-balance"
         >
           <span className="text-foreground">Launching</span>
           <br />
@@ -89,9 +96,11 @@ export default function Hero({ onNotifyClick }: HeroProps) {
           variants={subtitleVariants}
           className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto text-balance"
         >
-          Premium real estate experiences crafted for those who appreciate architectural excellence and timeless
-          elegance.
+          Premium real estate experiences crafted for those who appreciate
+          architectural excellence and timeless elegance.
         </motion.p>
+
+        <CountdownTimer />
 
         {/* CTA Button */}
         <motion.button
@@ -104,6 +113,7 @@ export default function Hero({ onNotifyClick }: HeroProps) {
         </motion.button>
       </motion.div>
 
+      {/* Decorative motion lines */}
       <motion.div
         className="absolute top-1/4 left-8 w-1 h-24 bg-gradient-to-b from-primary/50 to-transparent rounded-full"
         animate={{

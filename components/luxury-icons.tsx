@@ -1,14 +1,36 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useMotionValue, useTransform } from "framer-motion"
+import { useRef } from "react"
+import { Building2, KeyRound, Award, Star, Gem } from "lucide-react"
 
 interface LuxuryIconProps {
-  icon: "building" | "key" | "star" | "gem"
+  icon: "building" | "key" | "award" | "star" | "gem"
   label: string
   delay?: number
 }
 
 export function LuxuryIcon({ icon, label, delay = 0 }: LuxuryIconProps) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const x = useMotionValue(0)
+  const y = useMotionValue(0)
+  const rotateX = useTransform(y, [-50, 50], [15, -15])
+  const rotateY = useTransform(x, [-50, 50], [-15, 15])
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = cardRef.current?.getBoundingClientRect()
+    if (!rect) return
+    const offsetX = e.clientX - rect.left - rect.width / 2
+    const offsetY = e.clientY - rect.top - rect.height / 2
+    x.set(offsetX)
+    y.set(offsetY)
+  }
+
+  const handleMouseLeave = () => {
+    x.set(0)
+    y.set(0)
+  }
+
   const iconVariants = {
     hidden: { opacity: 0, scale: 0.5 },
     visible: {
@@ -16,43 +38,27 @@ export function LuxuryIcon({ icon, label, delay = 0 }: LuxuryIconProps) {
       scale: 1,
       transition: { duration: 0.6, delay },
     },
-    hover: {
-      scale: 1.1,
-      rotate: 5,
-      transition: { duration: 0.3 },
-    },
   }
 
   const renderIcon = () => {
+    const iconProps = {
+      size: 48,
+      strokeWidth: 1.5,
+      className:
+        "text-amber-500 drop-shadow-[0_0_10px_rgba(255,191,73,0.5)] transition-transform duration-300",
+    }
+
     switch (icon) {
       case "building":
-        return (
-          <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-            <polyline points="9 22 9 12 15 12 15 22" />
-            <line x1="9" y1="5" x2="9" y2="9" />
-            <line x1="15" y1="5" x2="15" y2="9" />
-          </svg>
-        )
+        return <Building2 {...iconProps} />
       case "key":
-        return (
-          <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M21 2l-9 4m0 0L5 2m7 4v16m0-16a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" />
-            <path d="M9 12h12" />
-          </svg>
-        )
+        return <KeyRound {...iconProps} />
+      case "award":
+        return <Award {...iconProps} />
       case "star":
-        return (
-          <svg className="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-          </svg>
-        )
+        return <Star {...iconProps} />
       case "gem":
-        return (
-          <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M12 2l3 7h7l-5.5 4 2 7-6.5-5-6.5 5 2-7-5.5-4h7z" />
-          </svg>
-        )
+        return <Gem {...iconProps} />
       default:
         return null
     }
@@ -60,13 +66,21 @@ export function LuxuryIcon({ icon, label, delay = 0 }: LuxuryIconProps) {
 
   return (
     <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY }}
       variants={iconVariants}
       initial="hidden"
       whileInView="visible"
-      whileHover="hover"
-      className="flex flex-col items-center gap-3"
+      className="flex flex-col items-center gap-3 select-none"
     >
-      <div className="glass p-4 rounded-lg text-primary hover:bg-white/20 transition-all">{renderIcon()}</div>
+      <motion.div
+        className="glass p-5 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-amber-500/40 hover:shadow-[0_0_20px_rgba(255,191,73,0.2)] transition-all duration-300"
+        whileHover={{ scale: 1.1 }}
+      >
+        {renderIcon()}
+      </motion.div>
       <p className="text-sm font-light text-muted-foreground">{label}</p>
     </motion.div>
   )

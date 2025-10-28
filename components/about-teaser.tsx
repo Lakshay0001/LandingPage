@@ -5,7 +5,7 @@ import { LuxuryIcon } from "./luxury-icons"
 
 export default function AboutTeaser() {
   return (
-    <section className="relative py-24 px-4 bg-gradient-to-b from-transparent to-black/40">
+    <section className="relative pt-10 pb-24 px-4 bg-gradient-to-b from-transparent to-black/40">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}

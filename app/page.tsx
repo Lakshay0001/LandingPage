@@ -15,7 +15,7 @@ export default function Home() {
     <main className="min-h-screen bg-background overflow-hidden">
       <Header />
       <Hero onNotifyClick={() => setIsModalOpen(true)} />
-      <CountdownTimer />
+      {/* <CountdownTimer /> */}
       <AboutTeaser />
       <Footer />
       <SubscriptionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
