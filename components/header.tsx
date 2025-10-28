@@ -8,7 +8,7 @@ export default function Header() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-white/10"
+      className="fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-md border-b border-black/20"
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-center">
         {/* Logo */}
