@@ -77,7 +77,7 @@ export default function CountdownTimer() {
   )
 
   return (
-    <section className="relative pt-5 pb-10 px-4 bg-gradient-to-b from-transparent via-black/20 to-transparent">
+    <section className="relative pt-5 pb-10 px-4">
       <div className="max-w-6xl mx-auto text-center">
         <div className="flex justify-center gap-6 md:gap-10 flex-wrap">
           <TimeUnit value={timeLeft.days} label="Days" />
