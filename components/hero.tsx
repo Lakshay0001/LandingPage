@@ -94,7 +94,7 @@ export default function Hero({ onNotifyClick }: HeroProps) {
         {/* Subtitle */}
         <motion.p
           variants={subtitleVariants}
-          className="text-lg md:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto text-balance"
+          className="text-lg md:text-xl text-muted-foreground md:mb-10 max-w-2xl mx-auto text-balance"
         >
           Premium real estate experiences crafted for those who appreciate
           architectural excellence and timeless elegance.
