@@ -115,14 +115,14 @@ export default function Hero({ onNotifyClick }: HeroProps) {
 
       {/* Decorative motion lines */}
       <motion.div
-        className="absolute top-1/4 left-8 w-1 h-24 bg-gradient-to-b from-primary/50 to-transparent rounded-full"
+        className="absolute top-20 left-4 w-1 h-24 bg-gradient-to-b from-primary/50 to-transparent rounded-full"
         animate={{
           opacity: [0.3, 0.6, 0.3],
         }}
         transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-8 w-1 h-32 bg-gradient-to-t from-primary/50 to-transparent rounded-full"
+        className="absolute bottom-20 right-4 w-1 h-32 bg-gradient-to-t from-primary/50 to-transparent rounded-full"
         animate={{
           opacity: [0.3, 0.6, 0.3],
         }}

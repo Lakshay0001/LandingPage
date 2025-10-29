@@ -92,9 +92,7 @@ export default function CountdownTimer() {
     <section className="relative py-8 px-4">
       <div className="max-w-6xl mx-auto text-center">
         <div
-          className="
-flex justify-center items-center gap-3 sm:gap-5 md:gap-8
-          "
+          className="flex justify-center items-center gap-3 sm:gap-5 md:gap-8"
         >
           <TimeUnit value={timeLeft.days} label="Days" />
           <Separator />
