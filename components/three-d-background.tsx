@@ -16,13 +16,13 @@ const Moving2DBackground = () => {
 
       {/* BLOB TWO: Medium White blob, reversed animation for opposition */}
       <div 
-        className="shape-blob absolute rounded-full bg-white w-[400px] h-[400px] top-[60%] left-[70%] opacity-15 blur-2xl"
+        className="hidden md:block shape-blob absolute rounded-full bg-white w-[400px] h-[400px] top-[45%] left-[70%] opacity-15 blur-2xl"
         style={{ animation: 'move-blob 15s infinite alternate reverse' }}
       ></div>
 
       {/* BLOB THREE: Large Gold/Amber blob, slower animation */}
       <div 
-        className="shape-blob absolute rounded-full bg-amber-500 w-[600px] h-[600px] top-[-10%] left-[40%] opacity-15 blur-2xl"
+        className="shape-blob absolute rounded-full bg-amber-500 w-[550px] h-[550px] top-[-10%] left-[38%] opacity-15 blur-2xl"
         style={{ animation: 'move-blob 22s infinite alternate' }}
       ></div>
     </div>

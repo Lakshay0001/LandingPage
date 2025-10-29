@@ -44,45 +44,64 @@ export default function CountdownTimer() {
     return () => clearInterval(timer)
   }, [launchDate])
 
+  // ✅ Responsive, centered, golden-themed TimeUnit box
   const TimeUnit = ({ value, label }: { value: number; label: string }) => (
     <div className="flex flex-col items-center relative">
-      {/* 🔥 Glow behind number */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-20 h-20 rounded-full blur-2xl opacity-40 bg-gradient-to-r from-amber-500 to-yellow-600"></div>
+      {/* Glow background */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full blur-3xl opacity-40 bg-gradient-to-r from-amber-500 to-yellow-600"></div>
       </div>
 
-      {/* 🕒 Number Box */}
+      {/* Number box */}
       <div
         className="
           bg-white/10 
           backdrop-blur-md 
-          border border-white/20 
-          rounded-lg 
-          px-8 py-6 
-          mb-2 
-          min-w-[5rem] 
-          text-center
+          border border-white/10 
+          rounded-2xl 
+          flex items-center justify-center
           shadow-md
           relative
           z-10
+          w-[60px] h-[60px]
+          sm:w-[80px] sm:h-[80px]
+          md:w-[90px] md:h-[90px]
+          lg:w-[100px] lg:h-[100px]
+          mb-3
         "
       >
-        <p className="text-4xl font-light text-amber-400">
+        <p className="text-2xl sm:text-3xl md:text-4xl font-light text-amber-400">
           {String(value).padStart(2, "0")}
         </p>
       </div>
 
-      <p className="text-sm text-muted-foreground uppercase tracking-widest">{label}</p>
+      <p className="text-[0.7rem] sm:text-xs md:text-sm tracking-widest uppercase text-gray-300">
+        {label}
+      </p>
+    </div>
+  )
+
+  // ✅ Colon separator (responsive)
+  const Separator = () => (
+    <div className="flex items-center justify-center mb-10">
+      <span className="text-3xl sm:text-4xl md:text-5xl font-light text-amber-400">:</span>
     </div>
   )
 
   return (
-    <section className="relative pt-5 pb-10 px-4">
+    <section className="relative py-8 px-4">
       <div className="max-w-6xl mx-auto text-center">
-        <div className="flex justify-center gap-6 md:gap-10 flex-wrap">
+        <div
+          className="
+flex justify-center items-center gap-3 sm:gap-5 md:gap-8
+          "
+        >
           <TimeUnit value={timeLeft.days} label="Days" />
+          <Separator />
           <TimeUnit value={timeLeft.hours} label="Hours" />
+          <Separator />
           <TimeUnit value={timeLeft.minutes} label="Minutes" />
+          <Separator />
           <TimeUnit value={timeLeft.seconds} label="Seconds" />
         </div>
       </div>

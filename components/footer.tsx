@@ -12,7 +12,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="relative py-16 px-4 border-t border-white/10 bg-gradient-to-t from-black/60 to-transparent">
+    <footer className="relative py-16 px-10 border-t border-white/10 bg-gradient-to-t from-black/60 to-transparent">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}

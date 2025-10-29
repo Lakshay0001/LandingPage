@@ -16,7 +16,7 @@ export default function AboutTeaser() {
         >
           <h2 className="text-4xl md:text-5xl font-light mb-8 text-balance">Redefining Luxury Living</h2>
 
-          <p className="text-lg text-muted-foreground leading-relaxed mb-8 text-balance max-w-3xl mx-auto">
+          <p className="text-lg text-muted-foreground leading-relaxed mb-4 text-balance max-w-3xl mx-auto">
             We believe that exceptional real estate is more than just buildings—it's about creating spaces where life
             unfolds beautifully. Our curated collection of premium properties combines architectural innovation with
             timeless elegance, offering discerning clients an unparalleled living experience.
